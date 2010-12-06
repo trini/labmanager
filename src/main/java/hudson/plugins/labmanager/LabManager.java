@@ -89,7 +89,7 @@ public class LabManager extends Cloud {
         this.lmHost = lmHost;
         this.lmDescription = lmDescription;
         this.lmOrganization = lmOrganization;
-        if (lmWorkspace != "")
+        if (lmWorkspace.length() != 0)
             this.lmWorkspace = lmWorkspace;
         else
             this.lmWorkspace = "main";
@@ -149,11 +149,10 @@ public class LabManager extends Cloud {
         LabManager_x0020_SOAP_x0020_interfaceStub lmStub = null;
         try {
             lmStub = new LabManager_x0020_SOAP_x0020_interfaceStub(lmHost + "/LabManager/SOAP/LabManager.asmx");
-        } catch (org.apache.axis2.AxisFault e) {
-            throw new RuntimeException(e);
-        } catch (java.rmi.RemoteException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
         return lmStub;
     }
 
@@ -179,8 +178,8 @@ public class LabManager extends Cloud {
             ArrayOfMachine aom = lmResp.getListMachinesResult();
             for (Machine mach : aom.getMachine())
                 vmList.add(new LabManagerVirtualMachine(this, mach.getName()));
-        } catch (java.rmi.RemoteException e) {
-                throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         return vmList;
     }
@@ -299,11 +298,9 @@ public class LabManager extends Cloud {
                     return FormValidation.ok("Connected successfully");
                 else
                     return FormValidation.error("Could not login and retrieve basic information to confirm setup");
-            } catch (org.apache.axis2.AxisFault e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
-            } catch (java.rmi.RemoteException e) {
-                throw new RuntimeException(e);
-           }
+            }
         }
     }
 

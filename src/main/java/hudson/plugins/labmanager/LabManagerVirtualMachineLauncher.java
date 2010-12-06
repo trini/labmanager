@@ -90,7 +90,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
         this.delegate = delegate;
         this.lmDescription = lmDescription;
         this.vmName = vmName;
-        if (idleOption.equals("Shutdown"))
+        if ("Shutdown".equals(idleOption))
             idleAction = MACHINE_ACTION_SHUTDOWN;
         else
             idleAction = MACHINE_ACTION_SUSPEND;
@@ -102,7 +102,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
      * that we can call and get the information out that we need to perform
      * SOAP calls.
      */
-    private LabManager findOurLmInstance() throws RuntimeException{
+    private LabManager findOurLmInstance() throws RuntimeException {
         if (lmDescription != null && vmName != null) {
             LabManager labmanager = null;
             for (Cloud cloud : Hudson.getInstance().clouds) {
@@ -126,23 +126,20 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
      */
     private Machine getMachine(LabManager labmanager,
                     LabManager_x0020_SOAP_x0020_interfaceStub lmStub,
-                    AuthenticationHeaderE lmAuth) {
+                    AuthenticationHeaderE lmAuth)
+            throws java.rmi.RemoteException {
         Machine vm = null;
-        try {
-            GetSingleConfigurationByName gscbnReq = new GetSingleConfigurationByName();
-            gscbnReq.setName(labmanager.getLmConfiguration());
-            GetSingleConfigurationByNameResponse gscbnResp = lmStub.getSingleConfigurationByName(gscbnReq, lmAuth);
-            ListMachines lmReq = new ListMachines();
-            lmReq.setConfigurationId(gscbnResp.getGetSingleConfigurationByNameResult().getId());
-            ListMachinesResponse lmResp = lmStub.listMachines(lmReq, lmAuth);
+        GetSingleConfigurationByName gscbnReq = new GetSingleConfigurationByName();
+        gscbnReq.setName(labmanager.getLmConfiguration());
+        GetSingleConfigurationByNameResponse gscbnResp = lmStub.getSingleConfigurationByName(gscbnReq, lmAuth);
+        ListMachines lmReq = new ListMachines();
+        lmReq.setConfigurationId(gscbnResp.getGetSingleConfigurationByNameResult().getId());
+        ListMachinesResponse lmResp = lmStub.listMachines(lmReq, lmAuth);
 
-            ArrayOfMachine aom = lmResp.getListMachinesResult();
-            for (Machine mach : aom.getMachine()) {
-                    if (mach.getName().equals(this.vmName))
-                        vm = mach;
-            }
-        } catch (java.rmi.RemoteException e) {
-                throw new RuntimeException(e);
+        ArrayOfMachine aom = lmResp.getListMachinesResult();
+        for (Machine mach : aom.getMachine()) {
+            if (mach.getName().equals(this.vmName))
+                vm = mach;
         }
 
         return vm;
@@ -180,37 +177,33 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
         LabManager labmanager = findOurLmInstance();
         LabManager_x0020_SOAP_x0020_interfaceStub lmStub = labmanager.getLmStub();
         AuthenticationHeaderE lmAuth = labmanager.getLmAuth();
-        try {
-            int machineAction = 0;
-            Machine vm = getMachine(labmanager, lmStub, lmAuth);
+        int machineAction = 0;
+        Machine vm = getMachine(labmanager, lmStub, lmAuth);
 
-            /* Determine the current state of the VM. */
-            switch (vm.getStatus()) {
-                    case MACHINE_STATUS_OFF:
-                            machineAction = MACHINE_ACTION_ON;
-                            break;
-                    case MACHINE_STATUS_SUSPENDED:
-                            machineAction = MACHINE_ACTION_RESUME;
-                            break;
-                    case MACHINE_STATUS_ON:
-                            /* Nothing to do */
-                            break;
-                    case MACHINE_STATUS_STUCK:
-                    case MACHINE_STATUS_INVALID:
-                            LOGGER.log(Level.SEVERE, "Problem with the machine status!");
-                            throw new RuntimeException("Problem with the machine status");
-            }
-
-            /* Perform the action, if needed.  This will be sleeping until
-             * it returns from the server. */
-            if (machineAction != 0)
-                performAction(labmanager, lmStub, lmAuth, vm, machineAction);
-
-            /* At this point the VM is ready to go. */
-            delegate.launch(slaveComputer, taskListener);
-        } catch (java.rmi.RemoteException e) {
-                throw new RuntimeException(e);
+        /* Determine the current state of the VM. */
+        switch (vm.getStatus()) {
+            case MACHINE_STATUS_OFF:
+                    machineAction = MACHINE_ACTION_ON;
+                    break;
+            case MACHINE_STATUS_SUSPENDED:
+                    machineAction = MACHINE_ACTION_RESUME;
+                    break;
+            case MACHINE_STATUS_ON:
+                    /* Nothing to do */
+                    break;
+            case MACHINE_STATUS_STUCK:
+            case MACHINE_STATUS_INVALID:
+                    LOGGER.log(Level.SEVERE, "Problem with the machine status!");
+                    throw new IOException("Problem with the machine status");
         }
+
+        /* Perform the action, if needed.  This will be sleeping until
+        * it returns from the server. */
+        if (machineAction != 0)
+            performAction(labmanager, lmStub, lmAuth, vm, machineAction);
+
+        /* At this point the VM is ready to go. */
+        delegate.launch(slaveComputer, taskListener);
     }
 
     /**
@@ -242,7 +235,6 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
                     case MACHINE_STATUS_STUCK:
                     case MACHINE_STATUS_INVALID:
                             LOGGER.log(Level.SEVERE, "Problem with the machine status!");
-                            throw new RuntimeException("Problem with the machine status");
             }
 
             /* Perform the action, if needed.  This will be sleeping until
