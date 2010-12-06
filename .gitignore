@@ -1,2 +1,6 @@
 .*.swp
+*.iml
+*.ipr
+*.iws
+work/
 target/
