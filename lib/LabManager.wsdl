@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://vmware.com/labmanager" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://vmware.com/labmanager" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A web service to allow automation of operations in LabManager</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://vmware.com/labmanager">
+      <s:element name="SetCurrentOrganizationByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orgName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetCurrentOrganizationByNameResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="AuthenticationHeader" type="tns:AuthenticationHeader" />
+      <s:complexType name="AuthenticationHeader">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="organizationname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="workspacename" type="s:string" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="SetCurrentWorkspaceByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orgName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="workspaceName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SetCurrentWorkspaceByNameResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCurrentOrganizationName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCurrentOrganizationNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCurrentOrganizationNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCurrentWorkspaceName">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCurrentWorkspaceNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCurrentWorkspaceNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfiguration">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationResult" type="tns:Configuration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Configuration">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="isPublic" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="isDeployed" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="fenceMode" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="type" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="owner" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="dateCreated" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="autoDeleteInMilliSeconds" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="bucketName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="mustBeFenced" type="tns:SOAPMustBeFenced" />
+          <s:element minOccurs="1" maxOccurs="1" name="autoDeleteDateTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="SOAPMustBeFenced">
+        <s:restriction base="s:string">
+          <s:enumeration value="NotSpecified" />
+          <s:enumeration value="True" />
+          <s:enumeration value="False" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GetConfigurationByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetConfigurationByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetConfigurationByNameResult" type="tns:ArrayOfConfiguration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfConfiguration">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Configuration" nillable="true" type="tns:Configuration" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetSingleConfigurationByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSingleConfigurationByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSingleConfigurationByNameResult" type="tns:Configuration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListConfigurations">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationType" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListConfigurationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListConfigurationsResult" type="tns:ArrayOfConfiguration" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationPerformAction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="action" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationPerformActionResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ConfigurationDeploy">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="isCached" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="fenceMode" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationDeployResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ConfigurationUndeploy">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationUndeployResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ConfigurationClone">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="newWorkspaceName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationCloneResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConfigurationCloneResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationCapture">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="newLibraryName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationCaptureResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConfigurationCaptureResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationCheckout">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="workspaceName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationCheckoutResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConfigurationCheckoutResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LiveLink">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="configName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LiveLinkResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LiveLinkResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationDelete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationDeleteResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ConfigurationSetPublicPrivate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="isPublic" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConfigurationSetPublicPrivateResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ListMachines">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ListMachinesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ListMachinesResult" type="tns:ArrayOfMachine" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfMachine">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Machine" nillable="true" type="tns:Machine" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Machine">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="id" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="internalIP" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="externalIP" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="macAddress" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="memory" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="status" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="isDeployed" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="configID" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="DatastoreNameResidesOn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="HostNameDeployedOn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OwnerFullName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetMachine">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="machineId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMachineResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMachineResult" type="tns:Machine" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMachineByName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="configurationId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMachineByNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMachineByNameResult" type="tns:Machine" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MachinePerformAction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="machineId" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="action" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MachinePerformActionResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="SetCurrentOrganizationByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:SetCurrentOrganizationByName" />
+  </wsdl:message>
+  <wsdl:message name="SetCurrentOrganizationByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:SetCurrentOrganizationByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetCurrentOrganizationByNameAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="SetCurrentWorkspaceByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:SetCurrentWorkspaceByName" />
+  </wsdl:message>
+  <wsdl:message name="SetCurrentWorkspaceByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:SetCurrentWorkspaceByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="SetCurrentWorkspaceByNameAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetCurrentOrganizationNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCurrentOrganizationName" />
+  </wsdl:message>
+  <wsdl:message name="GetCurrentOrganizationNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCurrentOrganizationNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCurrentOrganizationNameAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetCurrentWorkspaceNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCurrentWorkspaceName" />
+  </wsdl:message>
+  <wsdl:message name="GetCurrentWorkspaceNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCurrentWorkspaceNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCurrentWorkspaceNameAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfiguration" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByName" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetConfigurationByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetConfigurationByNameAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetSingleConfigurationByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSingleConfigurationByName" />
+  </wsdl:message>
+  <wsdl:message name="GetSingleConfigurationByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSingleConfigurationByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSingleConfigurationByNameAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ListConfigurationsSoapIn">
+    <wsdl:part name="parameters" element="tns:ListConfigurations" />
+  </wsdl:message>
+  <wsdl:message name="ListConfigurationsSoapOut">
+    <wsdl:part name="parameters" element="tns:ListConfigurationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListConfigurationsAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationPerformActionSoapIn">
+    <wsdl:part name="parameters" element="tns:ConfigurationPerformAction" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationPerformActionSoapOut">
+    <wsdl:part name="parameters" element="tns:ConfigurationPerformActionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationPerformActionAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationDeploySoapIn">
+    <wsdl:part name="parameters" element="tns:ConfigurationDeploy" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationDeploySoapOut">
+    <wsdl:part name="parameters" element="tns:ConfigurationDeployResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationDeployAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationUndeploySoapIn">
+    <wsdl:part name="parameters" element="tns:ConfigurationUndeploy" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationUndeploySoapOut">
+    <wsdl:part name="parameters" element="tns:ConfigurationUndeployResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationUndeployAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCloneSoapIn">
+    <wsdl:part name="parameters" element="tns:ConfigurationClone" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCloneSoapOut">
+    <wsdl:part name="parameters" element="tns:ConfigurationCloneResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCloneAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCaptureSoapIn">
+    <wsdl:part name="parameters" element="tns:ConfigurationCapture" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCaptureSoapOut">
+    <wsdl:part name="parameters" element="tns:ConfigurationCaptureResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCaptureAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCheckoutSoapIn">
+    <wsdl:part name="parameters" element="tns:ConfigurationCheckout" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCheckoutSoapOut">
+    <wsdl:part name="parameters" element="tns:ConfigurationCheckoutResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationCheckoutAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="LiveLinkSoapIn">
+    <wsdl:part name="parameters" element="tns:LiveLink" />
+  </wsdl:message>
+  <wsdl:message name="LiveLinkSoapOut">
+    <wsdl:part name="parameters" element="tns:LiveLinkResponse" />
+  </wsdl:message>
+  <wsdl:message name="LiveLinkAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationDeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:ConfigurationDelete" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationDeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:ConfigurationDeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationDeleteAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationSetPublicPrivateSoapIn">
+    <wsdl:part name="parameters" element="tns:ConfigurationSetPublicPrivate" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationSetPublicPrivateSoapOut">
+    <wsdl:part name="parameters" element="tns:ConfigurationSetPublicPrivateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConfigurationSetPublicPrivateAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="ListMachinesSoapIn">
+    <wsdl:part name="parameters" element="tns:ListMachines" />
+  </wsdl:message>
+  <wsdl:message name="ListMachinesSoapOut">
+    <wsdl:part name="parameters" element="tns:ListMachinesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ListMachinesAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetMachineSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMachine" />
+  </wsdl:message>
+  <wsdl:message name="GetMachineSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMachineResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMachineAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="GetMachineByNameSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMachineByName" />
+  </wsdl:message>
+  <wsdl:message name="GetMachineByNameSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMachineByNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMachineByNameAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:message name="MachinePerformActionSoapIn">
+    <wsdl:part name="parameters" element="tns:MachinePerformAction" />
+  </wsdl:message>
+  <wsdl:message name="MachinePerformActionSoapOut">
+    <wsdl:part name="parameters" element="tns:MachinePerformActionResponse" />
+  </wsdl:message>
+  <wsdl:message name="MachinePerformActionAuthenticationHeader">
+    <wsdl:part name="AuthenticationHeader" element="tns:AuthenticationHeader" />
+  </wsdl:message>
+  <wsdl:portType name="LabManager_x0020_SOAP_x0020_interfaceSoap">
+    <wsdl:operation name="SetCurrentOrganizationByName">
+      <wsdl:input message="tns:SetCurrentOrganizationByNameSoapIn" />
+      <wsdl:output message="tns:SetCurrentOrganizationByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SetCurrentWorkspaceByName">
+      <wsdl:input message="tns:SetCurrentWorkspaceByNameSoapIn" />
+      <wsdl:output message="tns:SetCurrentWorkspaceByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentOrganizationName">
+      <wsdl:input message="tns:GetCurrentOrganizationNameSoapIn" />
+      <wsdl:output message="tns:GetCurrentOrganizationNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentWorkspaceName">
+      <wsdl:input message="tns:GetCurrentWorkspaceNameSoapIn" />
+      <wsdl:output message="tns:GetCurrentWorkspaceNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfiguration">
+      <wsdl:input message="tns:GetConfigurationSoapIn" />
+      <wsdl:output message="tns:GetConfigurationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <wsdl:input message="tns:GetConfigurationByNameSoapIn" />
+      <wsdl:output message="tns:GetConfigurationByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSingleConfigurationByName">
+      <wsdl:input message="tns:GetSingleConfigurationByNameSoapIn" />
+      <wsdl:output message="tns:GetSingleConfigurationByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListConfigurations">
+      <wsdl:input message="tns:ListConfigurationsSoapIn" />
+      <wsdl:output message="tns:ListConfigurationsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationPerformAction">
+      <wsdl:input message="tns:ConfigurationPerformActionSoapIn" />
+      <wsdl:output message="tns:ConfigurationPerformActionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationDeploy">
+      <wsdl:input message="tns:ConfigurationDeploySoapIn" />
+      <wsdl:output message="tns:ConfigurationDeploySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationUndeploy">
+      <wsdl:input message="tns:ConfigurationUndeploySoapIn" />
+      <wsdl:output message="tns:ConfigurationUndeploySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationClone">
+      <wsdl:input message="tns:ConfigurationCloneSoapIn" />
+      <wsdl:output message="tns:ConfigurationCloneSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationCapture">
+      <wsdl:input message="tns:ConfigurationCaptureSoapIn" />
+      <wsdl:output message="tns:ConfigurationCaptureSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationCheckout">
+      <wsdl:input message="tns:ConfigurationCheckoutSoapIn" />
+      <wsdl:output message="tns:ConfigurationCheckoutSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LiveLink">
+      <wsdl:input message="tns:LiveLinkSoapIn" />
+      <wsdl:output message="tns:LiveLinkSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationDelete">
+      <wsdl:input message="tns:ConfigurationDeleteSoapIn" />
+      <wsdl:output message="tns:ConfigurationDeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationSetPublicPrivate">
+      <wsdl:input message="tns:ConfigurationSetPublicPrivateSoapIn" />
+      <wsdl:output message="tns:ConfigurationSetPublicPrivateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ListMachines">
+      <wsdl:input message="tns:ListMachinesSoapIn" />
+      <wsdl:output message="tns:ListMachinesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMachine">
+      <wsdl:input message="tns:GetMachineSoapIn" />
+      <wsdl:output message="tns:GetMachineSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMachineByName">
+      <wsdl:input message="tns:GetMachineByNameSoapIn" />
+      <wsdl:output message="tns:GetMachineByNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MachinePerformAction">
+      <wsdl:input message="tns:MachinePerformActionSoapIn" />
+      <wsdl:output message="tns:MachinePerformActionSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LabManager_x0020_SOAP_x0020_interfaceSoap" type="tns:LabManager_x0020_SOAP_x0020_interfaceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetCurrentOrganizationByName">
+      <soap:operation soapAction="http://vmware.com/labmanager/SetCurrentOrganizationByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetCurrentOrganizationByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCurrentWorkspaceByName">
+      <soap:operation soapAction="http://vmware.com/labmanager/SetCurrentWorkspaceByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:SetCurrentWorkspaceByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentOrganizationName">
+      <soap:operation soapAction="http://vmware.com/labmanager/GetCurrentOrganizationName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCurrentOrganizationNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentWorkspaceName">
+      <soap:operation soapAction="http://vmware.com/labmanager/GetCurrentWorkspaceName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetCurrentWorkspaceNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfiguration">
+      <soap:operation soapAction="http://vmware.com/labmanager/GetConfiguration" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetConfigurationAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <soap:operation soapAction="http://vmware.com/labmanager/GetConfigurationByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetConfigurationByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSingleConfigurationByName">
+      <soap:operation soapAction="http://vmware.com/labmanager/GetSingleConfigurationByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetSingleConfigurationByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListConfigurations">
+      <soap:operation soapAction="http://vmware.com/labmanager/ListConfigurations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ListConfigurationsAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationPerformAction">
+      <soap:operation soapAction="http://vmware.com/labmanager/ConfigurationPerformAction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConfigurationPerformActionAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationDeploy">
+      <soap:operation soapAction="http://vmware.com/labmanager/ConfigurationDeploy" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConfigurationDeployAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationUndeploy">
+      <soap:operation soapAction="http://vmware.com/labmanager/ConfigurationUndeploy" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConfigurationUndeployAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationClone">
+      <soap:operation soapAction="http://vmware.com/labmanager/ConfigurationClone" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConfigurationCloneAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationCapture">
+      <soap:operation soapAction="http://vmware.com/labmanager/ConfigurationCapture" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConfigurationCaptureAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationCheckout">
+      <soap:operation soapAction="http://vmware.com/labmanager/ConfigurationCheckout" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConfigurationCheckoutAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LiveLink">
+      <soap:operation soapAction="http://vmware.com/labmanager/LiveLink" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:LiveLinkAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationDelete">
+      <soap:operation soapAction="http://vmware.com/labmanager/ConfigurationDelete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConfigurationDeleteAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationSetPublicPrivate">
+      <soap:operation soapAction="http://vmware.com/labmanager/ConfigurationSetPublicPrivate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ConfigurationSetPublicPrivateAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListMachines">
+      <soap:operation soapAction="http://vmware.com/labmanager/ListMachines" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:ListMachinesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMachine">
+      <soap:operation soapAction="http://vmware.com/labmanager/GetMachine" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetMachineAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMachineByName">
+      <soap:operation soapAction="http://vmware.com/labmanager/GetMachineByName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:GetMachineByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MachinePerformAction">
+      <soap:operation soapAction="http://vmware.com/labmanager/MachinePerformAction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:MachinePerformActionAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LabManager_x0020_SOAP_x0020_interfaceSoap12" type="tns:LabManager_x0020_SOAP_x0020_interfaceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SetCurrentOrganizationByName">
+      <soap12:operation soapAction="http://vmware.com/labmanager/SetCurrentOrganizationByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetCurrentOrganizationByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCurrentWorkspaceByName">
+      <soap12:operation soapAction="http://vmware.com/labmanager/SetCurrentWorkspaceByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:SetCurrentWorkspaceByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentOrganizationName">
+      <soap12:operation soapAction="http://vmware.com/labmanager/GetCurrentOrganizationName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCurrentOrganizationNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCurrentWorkspaceName">
+      <soap12:operation soapAction="http://vmware.com/labmanager/GetCurrentWorkspaceName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetCurrentWorkspaceNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfiguration">
+      <soap12:operation soapAction="http://vmware.com/labmanager/GetConfiguration" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetConfigurationAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetConfigurationByName">
+      <soap12:operation soapAction="http://vmware.com/labmanager/GetConfigurationByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetConfigurationByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSingleConfigurationByName">
+      <soap12:operation soapAction="http://vmware.com/labmanager/GetSingleConfigurationByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetSingleConfigurationByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListConfigurations">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ListConfigurations" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ListConfigurationsAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationPerformAction">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ConfigurationPerformAction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConfigurationPerformActionAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationDeploy">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ConfigurationDeploy" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConfigurationDeployAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationUndeploy">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ConfigurationUndeploy" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConfigurationUndeployAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationClone">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ConfigurationClone" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConfigurationCloneAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationCapture">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ConfigurationCapture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConfigurationCaptureAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationCheckout">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ConfigurationCheckout" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConfigurationCheckoutAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LiveLink">
+      <soap12:operation soapAction="http://vmware.com/labmanager/LiveLink" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:LiveLinkAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationDelete">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ConfigurationDelete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConfigurationDeleteAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfigurationSetPublicPrivate">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ConfigurationSetPublicPrivate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ConfigurationSetPublicPrivateAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ListMachines">
+      <soap12:operation soapAction="http://vmware.com/labmanager/ListMachines" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:ListMachinesAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMachine">
+      <soap12:operation soapAction="http://vmware.com/labmanager/GetMachine" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetMachineAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMachineByName">
+      <soap12:operation soapAction="http://vmware.com/labmanager/GetMachineByName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:GetMachineByNameAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MachinePerformAction">
+      <soap12:operation soapAction="http://vmware.com/labmanager/MachinePerformAction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:MachinePerformActionAuthenticationHeader" part="AuthenticationHeader" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LabManager_x0020_SOAP_x0020_interface">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A web service to allow automation of operations in LabManager</wsdl:documentation>
+    <wsdl:port name="LabManager_x0020_SOAP_x0020_interfaceSoap" binding="tns:LabManager_x0020_SOAP_x0020_interfaceSoap">
+      <soap:address location="https://example.server.com/LabManager/SOAP/LabManager.asmx" />
+    </wsdl:port>
+    <wsdl:port name="LabManager_x0020_SOAP_x0020_interfaceSoap12" binding="tns:LabManager_x0020_SOAP_x0020_interfaceSoap12">
+      <soap12:address location="https://example.server.com/LabManager/SOAP/LabManager.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
