@@ -274,12 +274,12 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
     }
 
     @Override
-    public Descriptor<ComputerLauncher> getDescriptor() {
-        return Hudson.getInstance().getDescriptor(getClass());
+    public DescriptorImpl getDescriptor() {
+        return (DescriptorImpl)super.getDescriptor();
     }
 
     @Extension
-    public static final Descriptor<ComputerLauncher> DESCRIPTOR = new Descriptor<ComputerLauncher>() {
+    public static class DescriptorImpl extends Descriptor<ComputerLauncher> {
 
         private String lmDescription;
         private String vmName;

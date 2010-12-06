@@ -98,8 +98,6 @@ public class LabManagerVirtualMachineSlave extends Slave {
         return ((LabManagerVirtualMachineLauncher) getLauncher()).getDelegate();
     }
 
-    public static final DescriptorImpl DESCRIPTOR = new DescriptorImpl();
-
     @Extension
     public static final class DescriptorImpl extends SlaveDescriptor {
         private String lmDescription;
@@ -148,7 +146,7 @@ public class LabManagerVirtualMachineSlave extends Slave {
         public List<Descriptor<ComputerLauncher>> getComputerLauncherDescriptors() {
             List<Descriptor<ComputerLauncher>> result = new ArrayList<Descriptor<ComputerLauncher>>();
             for (Descriptor<ComputerLauncher> launcher : Functions.getComputerLauncherDescriptors()) {
-                if (!LabManagerVirtualMachineLauncher.DESCRIPTOR.getClass().isAssignableFrom(launcher.getClass())) {
+                if (!LabManagerVirtualMachineLauncher.class.isAssignableFrom(launcher.clazz)) {
                     result.add(launcher);
                 }
             }
