@@ -33,28 +33,21 @@
   		<artifactId>axis2</artifactId>
   		<version>1.5.3</version>
   		<type>pom</type>
-  		<scope>compile</scope>
   	</dependency>
   	<dependency>
   		<groupId>org.apache.axis2</groupId>
   		<artifactId>axis2-adb</artifactId>
   		<version>1.5.3</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
   	</dependency>
   	<dependency>
   		<groupId>org.apache.axis2</groupId>
   		<artifactId>axis2-transport-local</artifactId>
   		<version>1.5.3</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
   	</dependency>
   	<dependency>
   		<groupId>org.apache.axis2</groupId>
   		<artifactId>axis2-transport-http</artifactId>
   		<version>1.5.3</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
   	</dependency>
   </dependencies>
 </project>
