@@ -9,9 +9,22 @@
 
   <groupId>hudson.plugins</groupId>
   <artifactId>labmanager</artifactId>
-  <version>0.1.3-SNAPSHOT</version>
+  <version>0.1.4</version>
   <name>Hudson VMware Lab Manager Slaves plugin</name>
   <packaging>hpi</packaging>
+  <url>http://wiki.hudson-ci.org/display/HUDSON/Lab+Manager+Plugin</url>
+  <developers>
+    <developer>
+      <id>trini</id>
+      <name>Tom Rini</name>
+      <email>tom_rini@mentor.com</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git://github.com/hudson/plugin-labmanager.git</connection>
+    <developerConnection>scm:git:git@github.com:hudson/plugin-labmanager.git</developerConnection>
+    <url>http://github.com/hudson/plugin-labmanager</url>
+  </scm>
 
   <!-- get every artifact through maven.glassfish.org, which proxies all the artifacts that we need -->
   <repositories>
@@ -50,4 +63,27 @@
   		<version>1.5.3</version>
   	</dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.0</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.3</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.jvnet.wagon-svn</groupId>
+        <artifactId>wagon-svn</artifactId>
+        <version>1.9</version>
+      </extension>
+    </extensions>
+  </build>
 </project>
