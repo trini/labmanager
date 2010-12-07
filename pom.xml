@@ -9,7 +9,7 @@
 
   <groupId>hudson.plugins</groupId>
   <artifactId>labmanager</artifactId>
-  <version>0.1.5-SNAPSHOT</version>
+  <version>0.1.5</version>
   <name>Hudson VMware Lab Manager Slaves plugin</name>
   <packaging>hpi</packaging>
   <url>http://wiki.hudson-ci.org/display/HUDSON/Lab+Manager+Plugin</url>
