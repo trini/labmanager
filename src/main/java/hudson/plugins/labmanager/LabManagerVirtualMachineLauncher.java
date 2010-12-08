@@ -166,6 +166,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
     @Override
     public void launch(SlaveComputer slaveComputer, TaskListener taskListener)
             throws IOException, InterruptedException {
+        taskListener.getLogger().println("Starting Virtual Machine...");
         /**
          * What we know is that at least at one point this particular
          * machine existed.  But we want to be sure it still exists.
