@@ -1,14 +1,14 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-    <f:entry title="${%LabManager Host}" help="/plugin/labmanager/help-labmanager-lmHost.html">
+    <f:entry title="${%Lab Manager Host}" help="/plugin/labmanager/help-labmanager-lmHost.html">
         <f:textbox field="lmHost" />
     </f:entry>
     <f:entry title="${%Brief description of this overall configuration}" help="/plugin/labmanager/help-labmanager-lmDescription.html">
         <f:textbox field="lmDescription" />
     </f:entry>
-    <f:entry title="${%LabManager Organization}" help="/plugin/labmanager/help-labmanager-lmOrganization.html">
+    <f:entry title="${%Lab Manager Organization}" help="/plugin/labmanager/help-labmanager-lmOrganization.html">
         <f:textbox field="lmOrganization" />
     </f:entry>
-    <f:entry title="${%LabManager Configuration}" help="/plugin/labmanager/help-labmanager-lmConfiguration.html">
+    <f:entry title="${%Lab Manager Configuration}" help="/plugin/labmanager/help-labmanager-lmConfiguration.html">
         <f:textbox field="lmConfiguration" />
     </f:entry>
     <f:entry title="${%Username}" help="/plugin/labmanager/help-labmanager-username.html">
@@ -22,7 +22,7 @@
     </f:entry>
 
     <f:advanced>
-        <f:entry title="${%LabManager Workspace}" help="/plugin/labmanager/help-labmanager-lmWorkspace.html">
+        <f:entry title="${%Lab Manager Workspace}" help="/plugin/labmanager/help-labmanager-lmWorkspace.html">
             <f:textbox field="lmWorkspace" />
         </f:entry>
     </f:advanced>
