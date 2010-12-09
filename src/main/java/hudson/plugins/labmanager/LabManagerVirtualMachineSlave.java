@@ -156,6 +156,7 @@ public class LabManagerVirtualMachineSlave extends Slave {
         public List<String> getIdleOptions() {
             List<String> options = new ArrayList<String>();
             options.add("Shutdown");
+            options.add("Shutdown and Revert");
             options.add("Suspend");
             return options;
         }

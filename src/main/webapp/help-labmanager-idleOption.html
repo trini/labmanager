@@ -1,8 +1,13 @@
 <div>
     <p>
     Set the policy for what to do to the Virtual Machine once it has been
-    determined to be idle.  The choices are to perform a Shutdown or a Suspend.
-    The shutdown action will attempt to perform a clean shutdown of the OS.
+    determined to be idle.  The choices are to perform a Shutdown, a Shutdown
+    and Revert or a Suspend.  The shutdown action will attempt to perform a
+    clean shutdown of the OS.  The Shutdown and Revert option will perform a
+    clean shutdown (which is needed in certain cases to ensure <i>Hudson</i>
+    sees the slave go away) and will then restore the Virtual Machine to its
+    last revert point.  This revert point (called a snapshot in Lab Manager
+    terminology) must be created outside of <i>Hudson</i>.
     </p>
     <p>
     It is recommended to perform a Shutdown on the Virtual Machine rather than

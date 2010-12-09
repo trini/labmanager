@@ -92,6 +92,8 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
         this.vmName = vmName;
         if ("Shutdown".equals(idleOption))
             idleAction = MACHINE_ACTION_SHUTDOWN;
+        else if ("Shutdown and Revert".equals(idleOption))
+            idleAction = MACHINE_ACTION_REVERT;
         else
             idleAction = MACHINE_ACTION_SUSPEND;
         this.overrideLaunchSupported = overrideLaunchSupported;
@@ -184,18 +186,18 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
         /* Determine the current state of the VM. */
         switch (vm.getStatus()) {
             case MACHINE_STATUS_OFF:
-                    machineAction = MACHINE_ACTION_ON;
-                    break;
+                machineAction = MACHINE_ACTION_ON;
+                break;
             case MACHINE_STATUS_SUSPENDED:
-                    machineAction = MACHINE_ACTION_RESUME;
-                    break;
+                machineAction = MACHINE_ACTION_RESUME;
+                break;
             case MACHINE_STATUS_ON:
-                    /* Nothing to do */
-                    break;
+                /* Nothing to do */
+                break;
             case MACHINE_STATUS_STUCK:
             case MACHINE_STATUS_INVALID:
-                    LOGGER.log(Level.SEVERE, "Problem with the machine status!");
-                    throw new IOException("Problem with the machine status");
+                LOGGER.log(Level.SEVERE, "Problem with the machine status!");
+                throw new IOException("Problem with the machine status");
         }
 
         /* Perform the action, if needed.  This will be sleeping until
@@ -227,21 +229,34 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
 
             /* Determine the current state of the VM. */
             switch (vm.getStatus()) {
-                    case MACHINE_STATUS_OFF:
-                    case MACHINE_STATUS_SUSPENDED:
+                case MACHINE_STATUS_OFF:
+                case MACHINE_STATUS_SUSPENDED:
+                    break;
+                case MACHINE_STATUS_ON:
+                    /* In the case where our idleAction is Suspend and Revert
+                     * we need to first perform the shutdown and then the
+                     * revert.  We will make the shutdown action and sleep for
+                     * 60 seconds to try and make sure we have shutdown or at
+                     * least that our JNLP connection has terminated.  In the
+                     * case of Suspend or just Shutdown, we perform the action.
+                     */
+                    switch (idleAction) {
+                        case MACHINE_ACTION_REVERT:
+                            performAction(labmanager, lmStub, lmAuth, vm,
+                                            MACHINE_ACTION_OFF);
+                            taskListener.getLogger().println("Waiting 60 seconds for shutdown to complete.");
+                            Thread.sleep(60000);
+                        case MACHINE_ACTION_SUSPEND:
+                        case MACHINE_ACTION_OFF:
+                            performAction(labmanager, lmStub, lmAuth, vm,
+                                            idleAction);
                             break;
-                    case MACHINE_STATUS_ON:
-                            machineAction = idleAction;
-                            break;
-                    case MACHINE_STATUS_STUCK:
-                    case MACHINE_STATUS_INVALID:
-                            LOGGER.log(Level.SEVERE, "Problem with the machine status!");
+                    }
+                    break;
+                case MACHINE_STATUS_STUCK:
+                case MACHINE_STATUS_INVALID:
+                    LOGGER.log(Level.SEVERE, "Problem with the machine status!");
             }
-
-            /* Perform the action, if needed.  This will be sleeping until
-             * it returns from the server. */
-            if (machineAction != 0)
-                performAction(labmanager, lmStub, lmAuth, vm, machineAction);
         } catch (Throwable t) {
             taskListener.fatalError(t.getMessage(), t);
         }
