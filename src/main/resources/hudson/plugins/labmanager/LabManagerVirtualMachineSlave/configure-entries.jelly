@@ -14,7 +14,7 @@
 
     <f:entry title="${%Computer Name}" field="vmName" help="/plugin/labmanager/help-labmanager-computerName.html">
         <select class="setting-input" name="vmName" value="${instance.vmName}">
-            <j:forEach var="vc" items="${descriptor.getDefinedVirtualMachines(it.lmDescription)}" varStatus="loop">
+            <j:forEach var="vc" items="${descriptor.getDefinedLabManagerVirtualMachines(it.lmDescription)}" varStatus="loop">
                 <option selected="${vc.name==it.vmName?'true':null}">
                     ${vc.name}
                 </option>
