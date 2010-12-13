@@ -262,6 +262,14 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
         }
     }
 
+    public String getLmDescription() {
+        return lmDescription;
+    }
+
+    public String getVmName() {
+        return vmName;
+    }
+
     public ComputerLauncher getDelegate() {
         return delegate;
     }
@@ -290,36 +298,8 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
     }
 
     @Override
-    public DescriptorImpl getDescriptor() {
-        return (DescriptorImpl)super.getDescriptor();
+    public Descriptor<ComputerLauncher> getDescriptor() {
+        // Don't allow creation of launcher from UI
+        throw new UnsupportedOperationException();
     }
-
-    @Extension
-    public static class DescriptorImpl extends Descriptor<ComputerLauncher> {
-
-        private String lmDescription;
-        private String vmName;
-        private Boolean overrideLaunchSupported;
-        private ComputerLauncher delegate;
-
-        public String getDisplayName() {
-            return "Virtual Machine Launcher";
-        }
-
-        public String getLmDescription() {
-            return lmDescription;
-        }
-
-        public String getVmName() {
-            return vmName;
-        }
-
-        public Boolean getOverrideLaunchSupported() {
-            return overrideLaunchSupported;
-        }
-
-        public ComputerLauncher getDelegate() {
-            return delegate;
-        }
-    };
 }
