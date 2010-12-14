@@ -247,7 +247,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
                             taskListener.getLogger().println("Waiting 60 seconds for shutdown to complete.");
                             Thread.sleep(60000);
                         case MACHINE_ACTION_SUSPEND:
-                        case MACHINE_ACTION_OFF:
+                        case MACHINE_ACTION_SHUTDOWN:
                             performAction(labmanager, lmStub, lmAuth, vm,
                                             idleAction);
                             break;
