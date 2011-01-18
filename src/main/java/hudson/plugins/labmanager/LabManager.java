@@ -75,11 +75,6 @@ public class LabManager extends Cloud {
      */
     private AuthenticationHeaderE lmAuth = null;
 
-    /**
-     * Lazily computed list of virtual machines in this configuration.
-     */
-    private transient List<LabManagerVirtualMachine> virtualMachineList = null;
-
     @DataBoundConstructor
     public LabManager(String lmHost, String lmDescription,
                     String lmOrganization, String lmWorkspace,
@@ -102,7 +97,6 @@ public class LabManager extends Cloud {
         ah.setPassword(password);
         this.lmAuth = new AuthenticationHeaderE();
         this.lmAuth.setAuthenticationHeader(ah);
-        virtualMachineList = retrieveLabManagerVirtualMachines();
     }
 
     /* This is something that we need to make sure
@@ -160,7 +154,7 @@ public class LabManager extends Cloud {
         return lmAuth;
     }
 
-    private List<LabManagerVirtualMachine> retrieveLabManagerVirtualMachines() {
+    public synchronized List<LabManagerVirtualMachine> getLabManagerVirtualMachines() {
         LabManager_x0020_SOAP_x0020_interfaceStub lmStub = getLmStub();
         List<LabManagerVirtualMachine> vmList = new ArrayList<LabManagerVirtualMachine>();
         /* Get the list of machines.  We do this by asking for our
@@ -182,13 +176,6 @@ public class LabManager extends Cloud {
             throw new RuntimeException(e);
         }
         return vmList;
-    }
-
-    public synchronized List<LabManagerVirtualMachine> getLabManagerVirtualMachines() {
-        if (virtualMachineList == null) {
-            virtualMachineList = retrieveLabManagerVirtualMachines();
-        }
-        return virtualMachineList;
     }
 
     public Collection<NodeProvisioner.PlannedNode> provision(Label label, int i) {
