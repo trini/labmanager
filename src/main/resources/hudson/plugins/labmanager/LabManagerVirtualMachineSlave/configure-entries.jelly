@@ -67,6 +67,10 @@
         </j:forEach>
     </f:dropdownList>
 
+    <f:entry title="${%Force VM launch}" description="${%VMs can always be switched on, even if direct support is missing in the secondary launch option.}" help="/plugin/labmanager/help-labmanager-launchSupportForced.html">
+        <f:checkbox field="launchSupportForced"/>
+    </f:entry>
+
     <!-- pointless to show this if there's only one option, which is the default -->
     <j:if test="${h.getRetentionStrategyDescriptors().size() gt 1}">
         <f:dropdownList name="slave.retentionStrategy" title="${%Availability}"
