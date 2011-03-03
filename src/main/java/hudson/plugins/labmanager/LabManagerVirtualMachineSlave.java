@@ -1,5 +1,5 @@
 /**
- *  Copyright (C) 2010 Mentor Graphics Corporation
+ *  Copyright (C) 2010-2011 Mentor Graphics Corporation
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,16 +22,21 @@
  */
 package hudson.plugins.labmanager;
 
-import hudson.model.Slave;
+import hudson.model.Computer;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
+import hudson.model.Slave;
+import hudson.model.TaskListener;
 import hudson.slaves.ComputerLauncher;
+import hudson.slaves.ComputerListener;
+import hudson.slaves.Cloud;
 import hudson.slaves.RetentionStrategy;
 import hudson.slaves.NodeProperty;
-import hudson.slaves.Cloud;
+import hudson.slaves.SlaveComputer;
 import hudson.Util;
 import hudson.Extension;
 import hudson.Functions;
+import hudson.AbortException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -48,6 +53,7 @@ public class LabManagerVirtualMachineSlave extends Slave {
     private final String lmDescription;
     private final String vmName;
     private final String idleOption;
+    private final int launchDelay;
 
     @DataBoundConstructor
     public LabManagerVirtualMachineSlave(String name, String nodeDescription,
@@ -56,16 +62,17 @@ public class LabManagerVirtualMachineSlave extends Slave {
             RetentionStrategy retentionStrategy,
             List<?extends NodeProperty<?>> nodeProperties,
             String lmDescription, String vmName, String idleOption,
-            boolean launchSupportForced)
+            boolean launchSupportForced, String launchDelay)
             throws Descriptor.FormException, IOException {
         super(name, nodeDescription, remoteFS, numExecutors, mode, labelString,
                 new LabManagerVirtualMachineLauncher(delegateLauncher, lmDescription,
                         vmName, idleOption,
-			launchSupportForced ? Boolean.TRUE : null),
+            launchSupportForced ? Boolean.TRUE : null, launchDelay),
                 retentionStrategy, nodeProperties);
         this.lmDescription = lmDescription;
         this.vmName = vmName;
         this.idleOption = idleOption;
+        this.launchDelay = Util.tryParseNumber(launchDelay, 60).intValue();
     }
 
     public String getLmDescription() {
@@ -95,6 +102,30 @@ public class LabManagerVirtualMachineSlave extends Slave {
      */
     public ComputerLauncher getDelegateLauncher() {
         return ((LabManagerVirtualMachineLauncher) getLauncher()).getDelegate();
+    }
+
+    /**
+     * Allow for a configurable maximum of VMs to be on at a given time
+     */
+    @Extension
+    public static class InternalComputerListener extends ComputerListener {
+        private String lmDescription;
+
+        @Override
+        public void preLaunch(Computer c, TaskListener taskListener) throws IOException, InterruptedException {
+            LabManagerVirtualMachineLauncher LMVML = (LabManagerVirtualMachineLauncher)((SlaveComputer) c).getLauncher();
+            LabManager hypervisor = LMVML.findOurLmInstance();
+            int maxOnlineSlaves = hypervisor.getMaxOnlineSlaves();
+
+            /* A maximum of 0 means no limit, allow. */
+            if (maxOnlineSlaves == 0)
+                return;
+
+            if (hypervisor.markOneSlaveOnline(c.getDisplayName()) > maxOnlineSlaves) {
+                hypervisor.markOneSlaveOffline(c.getDisplayName());
+                throw new AbortException("Maximum allowed VM count reached for this cloud.");
+            }
+        }
     }
 
     @Extension

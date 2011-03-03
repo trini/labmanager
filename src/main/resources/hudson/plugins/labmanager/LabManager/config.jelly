@@ -22,6 +22,9 @@
         <f:entry title="${%Lab Manager Workspace}" help="/plugin/labmanager/help-labmanager-lmWorkspace.html">
             <f:textbox field="lmWorkspace" />
         </f:entry>
+        <f:entry title="${%Max number of slaves online}" help="/plugin/labmanager/help-labmanager-maxOnlineSlaves.html">
+            <f:textbox clazz="required number" field="maxOnlineSlaves" />
+        </f:entry>
     </f:advanced>
     <f:validateButton title="${%Test Connection}" progress="${%Testing...}" method="testConnection" with="lmHost,lmDescription,lmOrganization,lmWorkspace,lmConfiguration,username,password"/>
 </j:jelly>

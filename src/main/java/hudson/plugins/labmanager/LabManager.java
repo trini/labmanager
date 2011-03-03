@@ -1,5 +1,5 @@
 /**
- *  Copyright (C) 2010 Mentor Graphics Corporation
+ *  Copyright (C) 2010-2011 Mentor Graphics Corporation
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -69,6 +69,9 @@ public class LabManager extends Cloud {
     private final String lmConfiguration;
     private final String username;
     private final String password;
+    private final int maxOnlineSlaves;
+    private transient int currentOnlineSlaveCount = 0;
+    private transient ArrayList currentOnlineSlaves;
 
     /**
      * Information to connect to Lab Manager and send SOAP requests.
@@ -79,7 +82,7 @@ public class LabManager extends Cloud {
     public LabManager(String lmHost, String lmDescription,
                     String lmOrganization, String lmWorkspace,
                     String lmConfiguration, String username,
-                    String password) {
+                    String password, int maxOnlineSlaves) {
         super("LabManager");
         this.lmHost = lmHost;
         this.lmDescription = lmDescription;
@@ -91,6 +94,7 @@ public class LabManager extends Cloud {
         this.lmConfiguration = lmConfiguration;
         this.username = username;
         this.password = Scrambler.scramble(Util.fixEmptyAndTrim(password));
+        this.maxOnlineSlaves = maxOnlineSlaves;
         /* Setup our auth token. */
         AuthenticationHeader ah = new AuthenticationHeader();
         ah.setUsername(username);
@@ -134,6 +138,31 @@ public class LabManager extends Cloud {
 
     public String getPassword() {
         return Scrambler.descramble(password);
+    }
+
+    public int getMaxOnlineSlaves() {
+        return maxOnlineSlaves;
+    }
+
+    /**
+     * @param vmName The name of the slave we're bringing online.
+     */
+    public synchronized int markOneSlaveOnline(String vmName) {
+        if (currentOnlineSlaves == null)
+            currentOnlineSlaves = new ArrayList();
+        currentOnlineSlaves.add(vmName);
+        return ++currentOnlineSlaveCount;
+    }
+
+    /**
+     * @param vmName The name of the slave we're bringing offline.
+     */
+    public synchronized int markOneSlaveOffline(String vmName) {
+        if (currentOnlineSlaves.contains(vmName)) {
+            currentOnlineSlaves.remove(vmName);
+            return --currentOnlineSlaveCount;
+        } else
+            return currentOnlineSlaveCount;
     }
 
     public LabManager_x0020_SOAP_x0020_interfaceStub getLmStub() {
@@ -213,6 +242,7 @@ public class LabManager extends Cloud {
         private String lmConfiguration;
         private String username;
         private String password;
+        private int maxOnlineSlaves;
 
         @Override
         public String getDisplayName() {
@@ -228,6 +258,7 @@ public class LabManager extends Cloud {
             lmConfiguration = o.getString("lmConfiguration");
             username = o.getString("username");
             password = o.getString("password");
+            maxOnlineSlaves = o.getInt("maxOnlineSlaves");
             save();
             return super.configure(req, o);
         }
@@ -241,7 +272,8 @@ public class LabManager extends Cloud {
                 @QueryParameter String lmWorkspace,
                 @QueryParameter String lmConfiguration,
                 @QueryParameter String username,
-                @QueryParameter String password) {
+                @QueryParameter String password,
+                @QueryParameter int maxOnlineSlaves) {
             try {
                 /* We know that these objects are not null */
                 if (lmHost.length() == 0)

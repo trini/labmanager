@@ -1,5 +1,5 @@
 /**
- *  Copyright (C) 2010 Mentor Graphics Corporation
+ *  Copyright (C) 2010-2011 Mentor Graphics Corporation
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.Extension;
 import hudson.slaves.Cloud;
+import hudson.Util;
 
 import java.io.IOException;
 import java.util.Map;
@@ -55,6 +56,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
     private String vmName;
     private int idleAction;
     private Boolean overrideLaunchSupported;
+    private int launchDelay;
 
     /**
      * Constants.
@@ -91,7 +93,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
     @DataBoundConstructor
     public LabManagerVirtualMachineLauncher(ComputerLauncher delegate,
                     String lmDescription, String vmName, String idleOption,
-                    Boolean overrideLaunchSupported) {
+                    Boolean overrideLaunchSupported, String launchDelay) {
         super();
         this.delegate = delegate;
         this.lmDescription = lmDescription;
@@ -103,6 +105,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
         else
             idleAction = MACHINE_ACTION_SUSPEND;
         this.overrideLaunchSupported = overrideLaunchSupported;
+        this.launchDelay = Util.tryParseNumber(launchDelay, 60).intValue();
     }
 
     /**
@@ -110,7 +113,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
      * that we can call and get the information out that we need to perform
      * SOAP calls.
      */
-    private LabManager findOurLmInstance() throws RuntimeException {
+    public LabManager findOurLmInstance() throws RuntimeException {
         if (lmDescription != null && vmName != null) {
             LabManager labmanager = null;
             for (Cloud cloud : Hudson.getInstance().clouds) {
@@ -207,12 +210,20 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
         }
 
         /* Perform the action, if needed.  This will be sleeping until
-        * it returns from the server. */
+         * it returns from the server. */
         if (machineAction != 0)
             performAction(labmanager, lmStub, lmAuth, vm, machineAction);
 
-        /* At this point the VM is ready to go. */
-        delegate.launch(slaveComputer, taskListener);
+        try {
+            /* At this point we have told Lab Manager to get the VM going.
+             * Now we wait our launch delay amount before trying to connect. */
+            Thread.sleep(launchDelay * 1000);
+            delegate.launch(slaveComputer, taskListener);
+        } finally {
+            /* If the rest of the launcher fails, we free up a space. */
+            if (slaveComputer.getChannel() == null)
+                labmanager.markOneSlaveOffline(slaveComputer.getDisplayName());
+        }
     }
 
     /**
@@ -226,6 +237,7 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
         taskListener.getLogger().println("Shutting down Virtual Machine...");
 
         LabManager labmanager = findOurLmInstance();
+        labmanager.markOneSlaveOffline(slaveComputer.getDisplayName());
         LabManager_x0020_SOAP_x0020_interfaceStub lmStub = labmanager.getLmStub();
         AuthenticationHeaderE lmAuth = labmanager.getLmAuth();
 
