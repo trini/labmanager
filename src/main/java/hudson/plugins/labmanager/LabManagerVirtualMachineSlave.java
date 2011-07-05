@@ -52,8 +52,7 @@ public class LabManagerVirtualMachineSlave extends Slave {
     @DataBoundConstructor
     public LabManagerVirtualMachineSlave(String name, String nodeDescription,
             String remoteFS, String numExecutors, Mode mode,
-            String labelString, LabManagerVirtualMachineLauncher launcher,
-            ComputerLauncher delegateLauncher,
+            String labelString, ComputerLauncher delegateLauncher,
             RetentionStrategy retentionStrategy,
             List<?extends NodeProperty<?>> nodeProperties,
             String lmDescription, String vmName, String idleOption,
