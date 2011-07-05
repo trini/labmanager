@@ -1,4 +1,4 @@
-Copyright (C) 2010 Mentor Graphics Corporation
+Copyright (C) 2010-2011 Mentor Graphics Corporation
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -18,5 +18,5 @@ This plugin allows for slave machines that are managed by VMware Lab Manager
 (http://www.vmware.com/products/labmanager/) to be managed in Hudson as a cloud
 and be brought on and offline on demand.
 
-See http://wiki.hudson-ci.org/display/HUDSON/Lab+Manager+Plugin for more
+See http://wiki.jenkins-ci.org/display/JENKINS/Lab+Manager+Plugin for more
 information.

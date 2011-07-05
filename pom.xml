@@ -9,9 +9,10 @@
 
   <artifactId>labmanager</artifactId>
   <version>0.2.4-SNAPSHOT</version>
-  <name>Hudson VMware Lab Manager Slaves plugin</name>
   <packaging>hpi</packaging>
-  <url>http://wiki.hudson-ci.org/display/HUDSON/Lab+Manager+Plugin</url>
+  <name>Jenkins VMware Lab Manager Slaves plugin</name>
+  <description>Integrates Jenkins with VMware Lab Manager</description>
+  <url>http://wiki.jenkins-ci.org/display/JENKINS/Lab+Manager+Plugin</url>
   <developers>
     <developer>
       <id>tomrini</id>
@@ -20,15 +21,15 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git://github.com/hudson/plugin-labmanager.git</connection>
-    <developerConnection>scm:git:git@github.com:hudson/plugin-labmanager.git</developerConnection>
-    <url>http://github.com/hudson/plugin-labmanager</url>
+    <connection>scm:git:git://github.com/jenkinsci/plugin-labmanager.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/plugin-labmanager.git</developerConnection>
+    <url>http://github.com/jenkinsci/plugin-labmanager</url>
   </scm>
 
   <distributionManagement>
     <repository>
-      <id>java.net-m2-repository</id>
-      <url>http://maven.hudson-labs.org:8081/content/repositories/releases/</url>
+      <id>maven.jenkins-ci.org</id>
+      <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
     </repository>
   </distributionManagement>
 
