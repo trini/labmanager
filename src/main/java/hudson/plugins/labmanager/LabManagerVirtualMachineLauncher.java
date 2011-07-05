@@ -77,10 +77,16 @@ public class LabManagerVirtualMachineLauncher extends ComputerLauncher {
     private static final int MACHINE_ACTION_SHUTDOWN = 8;
 
     /**
-     * @param delegate real user-specified {@link ComputerLauncher}.
+     * @param delegate The real {@link ComputerLauncher} we have been passed.
      * @param lmDescription Human reable description of the Lab Manager
      * instance.
-     * @param vMName The 'VM Name' field in the configuration in Lab Manager.
+     * @param vmName The 'VM Name' field in the configuration in Lab Manager.
+     * @param idleOption The choice of action to take when the slave is deemed
+     * idle.
+     * @param overrideLaunchSupported Boolean to set of we force
+     * isLaunchSupported to always return True.
+     * @param launchDelay How long to wait between bringing up the VM and
+     * trying to connect to it as a slave.
      */
     @DataBoundConstructor
     public LabManagerVirtualMachineLauncher(ComputerLauncher delegate,
