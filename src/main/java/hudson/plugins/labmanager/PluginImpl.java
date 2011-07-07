@@ -62,9 +62,6 @@ public class PluginImpl extends Plugin {
         super.stop();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void doComputerNameValues(StaplerRequest req, StaplerResponse rsp,
             @QueryParameter("value") String value)
             throws IOException, ServletException {

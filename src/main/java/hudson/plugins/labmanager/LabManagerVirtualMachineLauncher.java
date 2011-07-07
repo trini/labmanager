@@ -44,7 +44,7 @@ import com.vmware.labmanager.LabManager_x0020_SOAP_x0020_interfaceStub.*;
 /**
  * {@link ComputerLauncher} for Lab Manager that waits for the Virtual Machine
  * to really come up before proceeding to the real user-specified
- * {@link ComputerLauncher.
+ * {@link ComputerLauncher}.
  *
  * @author Tom Rini <tom_rini@mentor.com>
  */
