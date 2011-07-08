@@ -108,11 +108,16 @@ public class LabManagerVirtualMachineSlave extends Slave {
      * Allow for a configurable maximum of VMs to be on at a given time
      */
     @Extension
-    public static class InternalComputerListener extends ComputerListener {
+    public static class LabManagerVirtualMComputerListener extends ComputerListener {
         private String lmDescription;
 
         @Override
         public void preLaunch(Computer c, TaskListener taskListener) throws IOException, InterruptedException {
+            /* We may be called on any slave type so check that we should
+             * be in here. */
+            if (!(c.getNode() instanceof LabManagerVirtualMachineSlave))
+                return;
+
             LabManagerVirtualMachineLauncher LMVML = (LabManagerVirtualMachineLauncher)((SlaveComputer) c).getLauncher();
             LabManager hypervisor = LMVML.findOurLmInstance();
             int maxOnlineSlaves = hypervisor.getMaxOnlineSlaves();
