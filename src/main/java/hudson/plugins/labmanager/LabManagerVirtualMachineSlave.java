@@ -37,12 +37,14 @@ import hudson.Util;
 import hudson.Extension;
 import hudson.Functions;
 import hudson.AbortException;
+import hudson.util.FormValidation;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
 
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 
 /**
  * This describes a Virtual Machine that is being used as a slave that
@@ -53,7 +55,7 @@ public class LabManagerVirtualMachineSlave extends Slave {
     private final String lmDescription;
     private final String vmName;
     private final String idleOption;
-    private final int launchDelay;
+    private final String launchDelay;
 
     @DataBoundConstructor
     public LabManagerVirtualMachineSlave(String name, String nodeDescription,
@@ -72,7 +74,7 @@ public class LabManagerVirtualMachineSlave extends Slave {
         this.lmDescription = lmDescription;
         this.vmName = vmName;
         this.idleOption = idleOption;
-        this.launchDelay = Util.tryParseNumber(launchDelay, 60).intValue();
+        this.launchDelay = launchDelay;
     }
 
     public String getLmDescription() {
@@ -93,6 +95,10 @@ public class LabManagerVirtualMachineSlave extends Slave {
 
     public void setLaunchSupportForced(boolean slaveLaunchesOnBootup) {
         ((LabManagerVirtualMachineLauncher) getLauncher()).setOverrideLaunchSupported(slaveLaunchesOnBootup ? Boolean.TRUE : null);
+    }
+
+    public String getLaunchDelay() {
+        return launchDelay;
     }
 
     /**
@@ -135,11 +141,6 @@ public class LabManagerVirtualMachineSlave extends Slave {
 
     @Extension
     public static final class DescriptorImpl extends SlaveDescriptor {
-        private String lmDescription;
-        private String vmName;
-        private String idleOption;
-        private boolean launchSupportForced = true;
-
         public DescriptorImpl() {
             load();
         }
@@ -196,20 +197,8 @@ public class LabManagerVirtualMachineSlave extends Slave {
             return options;
         }
 
-        public String getLmDescription() {
-            return lmDescription;
-        }
-
-        public String getVmName() {
-            return vmName;
-        }
-
-        public String getIdleOption() {
-            return idleOption;
-        }
-
-        public boolean isLaunchSupportForced() {
-            return launchSupportForced;
+        public FormValidation doCheckLaunchDelay(@QueryParameter String value) {
+            return FormValidation.validatePositiveInteger(value);
         }
     }
 }
