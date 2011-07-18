@@ -20,9 +20,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/plugin-labmanager.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/plugin-labmanager.git</developerConnection>
-    <url>http://github.com/jenkinsci/plugin-labmanager</url>
+    <connection>scm:git:git://github.com/jenkinsci/labmanager-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/labmanager-plugin.git</developerConnection>
+    <url>http://github.com/jenkinsci/labmanager-plugin</url>
   </scm>
 
   <distributionManagement>
